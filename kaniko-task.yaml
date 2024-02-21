@@ -36,7 +36,7 @@ spec:
         #workingDir: /kaniko-image-building3
         command:
           - "/kaniko/executor"
-          - "$(EXTRA_ARGS)"
+          #- "$(EXTRA_ARGS)"
           - "--dockerfile=."
           - "--context=."
           - "--destination=gokulc780/tekton-image:latest"
