@@ -5,7 +5,7 @@ metadata:
   labels:
     app: kaniko-task
 spec:
-  replicas: 1  
+  replicas: 3
   selector:
     matchLabels:
       app: kaniko-task
