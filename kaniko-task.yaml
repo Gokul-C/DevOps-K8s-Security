@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kaniko-task
+  labels:
+    app: kaniko-task
+spec:
+  replicas: 1  
+  selector:
+    matchLabels:
+      app: kaniko-task
+  template:
+    metadata:
+      labels:
+        app: kaniko-task
+      annotations:
+        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/role: 'tekton8'
+        vault.hashicorp.com/agent-inject-secret-config.json: 'tekton/data/database/config5'
+        vault.hashicorp.com/secret-volume-path-config.json: '/kaniko/.docker'
+        vault.hashicorp.com/agent-inject-template-config.json: |
+          {{- with secret "tekton/data/database/config5" -}}
+          {
+            "auths": {
+              "https://index.docker.io/v1/": {
+                "auth": "{{ .Data.data.username }}"
+              }
+            }
+          }
+          {{- end -}}
+    spec:
+      serviceAccountName: tekton6
+      containers:
+      - name: kaniko-task
+        image: gcr.io/kaniko-project/executor:debug  
+        #workingDir: /kaniko-image-building3
+        command:
+          - "/kaniko/executor"
+          - "$(EXTRA_ARGS)"
+          - "--dockerfile=."
+          - "--context=."
+          - "--destination=gokulc780/tekton-image:latest"
+          - "--oci-layout-path=/kaniko-image-building3/image-digest-digest"
+        securityContext:
+          runAsUser: 0
