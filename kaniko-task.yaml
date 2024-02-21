@@ -37,9 +37,17 @@ spec:
         command:
           - "/kaniko/executor"
           #- "$(EXTRA_ARGS)"
-          - "--dockerfile=."
-          - "--context=."
+          - "--dockerfile=/tmp/pvc/kaniko-image-building3/Dockerfile"
+          - "--context=/tmp/pvc/kaniko-image-building3"
           - "--destination=gokulc780/tekton-image:latest"
           - "--oci-layout-path=/kaniko-image-building3/image-digest-digest"
+        volumeMounts:
+        - name: my-pvc-volume
+          mountPath: /tmp/pvc  # Adjust the mount path as needed
         securityContext:
           runAsUser: 0
+      volumes:
+      - name: my-pvc-volume
+        persistentVolumeClaim:
+          claimName: example-local-claim
+        
