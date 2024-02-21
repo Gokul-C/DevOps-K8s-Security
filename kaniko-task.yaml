@@ -37,7 +37,7 @@ spec:
         command:
           - "/kaniko/executor"
           #- "$(EXTRA_ARGS)"
-          - "--dockerfile=."
+          - "--dockerfile=/kaniko-image-building3/."
           - "--context=."
           - "--destination=gokulc780/tekton-image:latest"
           - "--oci-layout-path=/kaniko-image-building3/image-digest-digest"
