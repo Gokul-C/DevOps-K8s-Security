@@ -47,5 +47,6 @@ stages:
             - agent.name -equals hci-vm
         steps:
           - script: |
+              export KUBECONFIG=/home/gokul-admin/kubeconfig
               kubectl apply -f deployment.yaml -n demo
               
