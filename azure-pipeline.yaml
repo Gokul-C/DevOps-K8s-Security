@@ -1,0 +1,20 @@
+trigger:
+  - master
+
+resources:
+  - repo: self
+
+stages:
+  - stage: Clone
+    displayName: Clone
+    jobs:
+      - job: Clone
+        timeoutInMinutes: 5
+        displayName: Clone
+        pool:
+          name: Self-hosted
+          demands:
+            - agent.name -equals hci-vm
+        steps:
+          - script: |
+              git clone https://github.com/Gokul-C/DevOps-K8s-Security.git
