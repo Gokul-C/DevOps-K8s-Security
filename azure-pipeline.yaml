@@ -18,3 +18,34 @@ stages:
         steps:
           - script: |
               git clone https://github.com/Gokul-C/DevOps-K8s-Security.git
+
+  - stage: Build
+    displayName: Build
+    jobs:
+      - job: Build
+        timeoutInMinutes: 15
+        displayName: Build
+        pool:
+          name: Self-hosted
+          demands:
+            - agent.name -equals hci-vm
+        steps:
+          - script: |
+              docker build -t numeric:latest .
+              docker tag numeric:latest gokulc780/numeric:latest
+              docker push gokulc780/numeric:latest
+
+  - stage: Deploy
+    displayName: Deploy
+    jobs:
+      - job: Deploy
+        timeoutInMinutes: 15
+        displayName: Deploy
+        pool:
+          name: Self-hosted
+          demands:
+            - agent.name -equals hci-vm
+        steps:
+          - script: |
+              kubectl apply -f deployment.yaml -n demo
+              
