@@ -16,7 +16,7 @@ spec:
         app: devsecops
     spec:
       containers:
-      - image: gokulc780/tekton-image:v1
+      - image: gokulc780/numeric:latest
         name: devsecops-container
         securityContext:
           runAsNonRoot: true
