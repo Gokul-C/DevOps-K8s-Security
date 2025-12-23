@@ -16,7 +16,7 @@ spec:
         app: devsecops
     spec:
       containers:
-      - image: gokulc780/numeric:latest
+      - image: gokulc780/webapp:latest
         name: devsecops-container
         securityContext:
           runAsNonRoot: true
