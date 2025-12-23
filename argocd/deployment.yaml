@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: devsecops
+  name: devsecops
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devsecops
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: devsecops
+    spec:
+      containers:
+      - image: gokulc780/webapp:74212b22-683a-4968-b9c8-ae7231e323fd
+        name: devsecops-container
+        securityContext:
+          runAsNonRoot: true
+          #numeric values should give as 100 or any
+          runAsUser: 100 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: devsecops
+  name: devsecops-svc
+spec:
+  ports:
+  - port: 8081
+    protocol: TCP
+    targetPort: 8081
+  selector:
+    app: devsecops
+  type: NodePort
